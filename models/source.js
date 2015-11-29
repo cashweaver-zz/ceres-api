@@ -1,5 +1,4 @@
 var mongoose = require('mongoose');
-mongoose.connect('mongodb://localhost/gardendb');
 var Schema = mongoose.Schema;
 var ObjectId = Schema.ObjectId
 
@@ -10,4 +9,7 @@ var SourceSchema = new Schema({
   sources: [String]
 });
 
-module.exports = mongoose.model('Source', SourceSchema);
+Source = mongoose.model('Source', SourceSchema);
+module.exports = {
+  Source: Source
+}

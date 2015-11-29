@@ -1,5 +1,4 @@
 var mongoose = require('mongoose');
-mongoose.connect('mongodb://localhost/gardendb');
 var Schema = mongoose.Schema;
 
 var PlantSchema = new Schema({
@@ -9,4 +8,7 @@ var PlantSchema = new Schema({
   }
 });
 
-module.exports = mongoose.model('Plant', PlantSchema);
+Plant = mongoose.model('Plant', PlantSchema);
+module.exports = {
+  Plant: Plant
+}
