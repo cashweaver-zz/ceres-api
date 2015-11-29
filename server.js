@@ -55,6 +55,54 @@ router.route('/plants/:plant_id')
     })
   });
 
+router.route('/plants/:plant_id/growingSeason/:stationId')
+  .get(function (req, res) {
+    Plant.findById(req.params.plant_id, function (err, plant) {
+      if (err) {
+        res.send(err);
+      }
+
+      Station.findOne({'stationId': req.params.stationId}).exec(function (err, station) {
+        if (err) {
+          res.send(err);
+        }
+
+        var probable_mins = station.dlyTMinNormal.data.map(function (temp, index) {
+          // z-score -1.2816 -> 90% confidence
+          return temp + (-1.2816 * station.dlyTMinStddev.data[index]);
+        });
+        var probable_maxes = station.dlyTMaxNormal.data.map(function (temp, index) {
+          // z-score 1.2816 -> 90% confidence
+          return temp + (1.2816 * station.dlyTMaxStddev.data[index]);
+        });
+
+        safe_growing_days = probable_mins.map(function (min, index) {
+          if (min >= plant.climate.temperature.min && probable_maxes[index] <= plant.climate.temperature.max) {
+             return 1;
+          }
+          else {
+            // Too hot and too cold to grow
+            if (min < plant.climate.temperature.min && probable_maxes[index] > plant.climate.temperature.max) {
+              return -3;
+            }
+            // Too hot to grow
+            else if (probable_maxes[index] > plant.climate.temperature.max) {
+              return -2;
+            }
+            // Too cold to grow
+            //if (min < plant.climate.temperature.min) {
+            else {
+              return -1;
+            }
+          }
+        })
+
+        res.json(safe_growing_days);
+      });
+    })
+
+  });
+
 router.route('/stations')
   .get(function (req, res) {
     Station.find(function (err, stations) {
@@ -73,7 +121,6 @@ router.route('/stations/:stationId')
         res.send(err);
       }
 
-      console.log(req.params.stationId);
       res.json(station);
     })
   });
@@ -91,7 +138,8 @@ router.route('/stationsByPostalCode/:postalCode')
     })
   });
 
-router.route('/nearestStation/:lng/:lat/:maxDistance')
+// TODO: Ensure stations returned have all necessary data (all 4 temperature arrays)
+router.route('/nearestStation/:lat/:lng/:maxDistance')
   .get(function (req, res) {
     Station.find({
       'location.lnglat': {

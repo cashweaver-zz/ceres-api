@@ -5,6 +5,12 @@ var PlantSchema = new Schema({
   name: {
     common: [String],
     scientific: String
+  },
+  climate: {
+    temperature: {
+      min: Number,
+      max: Number
+    }
   }
 });
 
