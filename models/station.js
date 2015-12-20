@@ -1,6 +1,7 @@
+'use strict';
 var mongoose = require('mongoose');
 
-var StationSchema = new mongoose.Schema({
+var schema = new mongoose.Schema({
   dlyTMaxNormal: {
     data: [Number],
     completeness: String,
@@ -35,9 +36,6 @@ var StationSchema = new mongoose.Schema({
   stationId: String,
 });
 
-StationSchema.index({'location.lnglat': '2dsphere'});
+schema.index({'location.lnglat': '2dsphere'});
 
-var Station = mongoose.model('Station', StationSchema);
-module.exports = {
-  Station: Station
-}
+module.exports = mongoose.model('Station', schema);

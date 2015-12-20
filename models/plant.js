@@ -1,7 +1,7 @@
+'use strict';
 var mongoose = require('mongoose');
-var Schema = mongoose.Schema;
 
-var PlantSchema = new Schema({
+var schema = new mongoose.Schema({
   name: {
     common: [String],
     scientific: String
@@ -14,7 +14,4 @@ var PlantSchema = new Schema({
   }
 });
 
-Plant = mongoose.model('Plant', PlantSchema);
-module.exports = {
-  Plant: Plant
-}
+module.exports = mongoose.model('Plant', schema);

@@ -1,21 +1,11 @@
-var express    = require('express');
-var app        = express();
-var mongoose = require('mongoose');
+'use strict';
+var express = require('express'),
+  app = express(),
+  mongoose = require('mongoose');
 mongoose.connect('mongodb://localhost/gardendb');
 
-// Models
-var Plant = require('./models/plant.js').Plant;
-var Source = require('./models/source.js').Source;
-var Station = require('./models/station.js').Station;
-
-// Disabled because this API doesn't need POSt
-// configure app to use bodyParser()
-// this will let us get the data from a POST
-//var bodyParser = require('body-parser');
-//app.use(bodyParser.urlencoded({ extended: true }));
-//app.use(bodyParser.json());
-// Disabled because this API doesn't need POSt
-
+var Plant = require('./models/plant'),
+  Station = require('./models/station');
 
 // Routes
 // =============================================================================
@@ -76,7 +66,7 @@ router.route('/plants/:plant_id/growingSeason/:stationId')
           return temp + (1.2816 * station.dlyTMaxStddev.data[index]);
         });
 
-        safe_growing_days = probable_mins.map(function (min, index) {
+        var safe_growing_days = probable_mins.map(function (min, index) {
           if (min >= plant.climate.temperature.min && probable_maxes[index] <= plant.climate.temperature.max) {
              return 1;
           }
@@ -178,4 +168,3 @@ var server = app.listen(port, function () {
 
   console.log('Listening at http://%s:%s', host, port);
 });
-console.log('Magic happens on port ' + port);

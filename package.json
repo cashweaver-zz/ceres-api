@@ -1,10 +1,17 @@
 {
   "name": "garden-api",
+  "version": "0.0.0",
   "main": "server.js",
+  "scripts": {
+    "test": "mocha --recursive test"
+  },
   "dependencies": {
     "express": "~4.0.0",
     "mongoose": "~3.6.13",
     "body-parser": "~1.0.1",
-    "mongo-express": "~0.26.0"
+    "mongo-express": "~0.26.0",
+    "chai": "*",
+    "mocha": "*",
+    "superagent": "*"
   }
 }
