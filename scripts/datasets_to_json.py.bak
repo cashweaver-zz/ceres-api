@@ -1,0 +1,67 @@
+import sys
+import os.path
+import json
+import itertools
+
+# Check for required datasets
+dataset_base_path = "/home/vagrant/app/ncdc_datasets/raw/"
+required_datasets = [
+  dataset_base_path+"dly-tmax-normal.txt",
+  dataset_base_path+"dly-tmax-stddev.txt",
+  dataset_base_path+"dly-tmin-normal.txt",
+  dataset_base_path+"dly-tmin-stddev.txt"
+]
+for path in required_datasets:
+  if not os.path.isfile(path):
+    print path+" is a required dataset. Aborting."
+    sys.exit(1)
+
+# Stations will be constructed as a dictionary of dictionaries to allow for O(1) indexing
+# all_station_data will be converted to a list of dictionaries before being exported as JSON
+all_station_data = {}
+
+# Parse datasets into JSON-ready Python dictionary
+
+# Daily Temperature Maximum Normal
+with open(dataset_base_path+"dly-tmax-normal-test.txt", 'r') as dly_tmax_normal:
+  while True:
+    # Grab the next 12 lines
+    tmax_normal_chunk = list(itertools.islice(dly_tmax_normal, 12))
+    if not tmax_normal_chunk:
+      break
+
+    station_id = tmax_normal_chunk[0].split()[0]
+    data_completeness_flag = tmax_normal_chunk[0].split()[3][-1]
+
+    if not all_station_data[station_id]:
+      all_station_data[station_id] = {"stationId": station_id, "dlyTMaxNormal": {"completeness": data_completeness_flag, "data": []}}
+    else:
+      all_station_data[station_id]["dlyTMaxNormal"] = {"completeness": data_completeness_flag, "data": []}
+
+    for month in tmax_normal_chunk:
+      for temp in month.split()[2:]:
+        # single_station_data['dlyTMaxNormal']['data'].append(float(temp[:-1])/10)
+        all_station_data[station_id]['dlyTMaxNormal']['data'].append(float(temp[:-1])/10)
+
+
+# Daily Temperature Maximum Standard Deviation
+with open(dataset_base_path+"dly-tmax-stddev-test.txt", 'r') as dly_tmax_stddev:
+  while True:
+    # Grab the next 12 lines
+    tmax_stddev_chunk = list(itertools.islice(dly_tmax_stddev, 12))
+    if not tmax_stddev_chunk:
+      break
+
+    station_id = tmax_stddev_chunk[0].split()[0]
+    data_completeness_flag = tmax_stddev_chunk[0].split()[3][-1]
+
+    all_station_data[station_id] = {"stationId": station_id, "dlyTMaxStddev": {"completeness": data_completeness_flag, "data": []}}
+    for month in tmax_stddev_chunk:
+      for temp in month.split()[2:]:
+        # single_station_data['dlyTMaxstddev']['data'].append(float(temp[:-1])/10)
+        all_station_data[station_id]['dlyTMaxstddev']['data'].append(float(temp[:-1])/10)
+
+
+# Build JSON object from Python dictionary
+all_station_data_json = json.dumps(all_station_data)
+print all_station_data_json
