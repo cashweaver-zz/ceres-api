@@ -1,13 +1,11 @@
 #!/usr/bin/env bash
 # Run the main garden app server
 
-# Start mongod (if it isn't running)
-if [[ ! $(ps -eadf | grep "[m]ongod") ]]
-then
-  echo "Stating mongod"
-  mongod &
-fi
+SCRIPT_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 
+. $SCRIPT_DIR/mongod-start.sh
+
+echo "Starting application..."
 node /home/vagrant/app/server.js
 
 # mongod auto-exists when this script is terminated

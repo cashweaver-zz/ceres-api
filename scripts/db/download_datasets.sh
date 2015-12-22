@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 # Download datasets from the NCDC
 
-SAVE_PATH="/home/vagrant/app/data/ncdc/raw"
+SAVE_PATH="/home/vagrant/app/data/sources/ncdc"
 mkdir -p "$SAVE_PATH"
 cd "$SAVE_PATH"
 if [[ "$(pwd)" != "$SAVE_PATH" ]]

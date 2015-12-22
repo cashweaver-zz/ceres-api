@@ -8,8 +8,9 @@ import requests
 # TODO: Ensure this doesn't get commited to public repository
 google_api_key =  'AIzaSyArbx_H602BDP3Fq8QWSsml4YypRMe_ctg'
 
+
 # Check for required datasets
-dataset_base_path = '/home/vagrant/app/ncdc_datasets/raw/'
+dataset_base_path = '/home/vagrant/app/data/sources/ncdc/'
 required_datasets = [
   dataset_base_path+'dly-tmax-normal.txt',
   dataset_base_path+'dly-tmax-stddev.txt',
@@ -59,6 +60,7 @@ for dataset in datasets:
   dataset['dataset'].seek(0)
 
 for dataset in datasets:
+print dataset
   # Parse datasets into JSON-ready Python dictionary
   while True:
     # Grab the next 12 lines
@@ -94,6 +96,7 @@ slice_hcn_flag = slice(76, 79)
 slice_wmoid = slice(80, 85)
 slice_method = slice(86, 99)
 with open(dataset_base_path+'allstations.txt', 'r') as location_dataset:
+  print "with open!"
   for line in location_dataset:
     if line[slice_station_id].strip() in all_station_data:
 
@@ -121,8 +124,9 @@ with open(dataset_base_path+'allstations.txt', 'r') as location_dataset:
         # 'name': line[slice_name].strip(),
       }
 
-# Dict of Dicts to List of Dicts
-with open('../data/stations-temperature-location.json', 'w') as outfile:
+
+# TODO: Create this directory (/home/vagrant/app/data/processed/) if it doesn't exist
+with open('/home/vagrant/app/data/processed/stations.json', 'w') as outfile:
   for key in all_station_data:
     json.dump(all_station_data[key], outfile)
     outfile.write('\n')
