@@ -124,7 +124,7 @@ with open(dataset_base_path+'allstations.txt', 'r') as location_dataset:
 
 
 # TODO: Create this directory (/home/vagrant/app/data/processed/) if it doesn't exist
-with open('/home/vagrant/app/data/processed/stations.json', 'w') as outfile:
+with open('/home/vagrant/app/data/processed/stations.json', 'w+') as outfile:
   for key in all_station_data:
     json.dump(all_station_data[key], outfile)
     outfile.write('\n')
