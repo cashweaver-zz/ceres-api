@@ -60,7 +60,6 @@ for dataset in datasets:
   dataset['dataset'].seek(0)
 
 for dataset in datasets:
-print dataset
   # Parse datasets into JSON-ready Python dictionary
   while True:
     # Grab the next 12 lines
@@ -96,7 +95,6 @@ slice_hcn_flag = slice(76, 79)
 slice_wmoid = slice(80, 85)
 slice_method = slice(86, 99)
 with open(dataset_base_path+'allstations.txt', 'r') as location_dataset:
-  print "with open!"
   for line in location_dataset:
     if line[slice_station_id].strip() in all_station_data:
 
