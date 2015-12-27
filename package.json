@@ -1,17 +1,27 @@
 {
-  "name": "garden-api",
-  "version": "0.0.0",
+  "name": "ceres-api",
+  "version": "0.0.1",
+  "description": "REST API for information required for growing plants.",
+  "author": "Cash Weaver <cashbweaver@gmail.com>",
   "main": "server.js",
+  "repository": {
+    "type": "git",
+    "url": "https://bitbucket.org/cbweaver/ceres-api"
+  },
   "scripts": {
-    "test": "mocha --recursive test"
+    "test": "mocha --recursive test",
+    "start": "node server.js"
   },
   "dependencies": {
-    "express": "~4.0.0",
-    "mongoose": "~3.6.13",
-    "body-parser": "~1.0.1",
-    "mongo-express": "~0.26.0",
+    "express": "4.13.x",
+    "mongoose": "4.3.x",
+    "body-parser": "1.14.x",
+    "json-api": "2.15.x"
+  },
+  "devDependencies": {
     "chai": "*",
     "mocha": "*",
-    "superagent": "*"
+    "superagent": "*",
+    "mongo-express": "*"
   }
 }

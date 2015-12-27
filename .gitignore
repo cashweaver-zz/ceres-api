@@ -1,5 +1,7 @@
 node_modules/
 data/
+keys.json
+npm-debug.log
 
 !.gitignore
-!node_modules/mongo-express/config.js
+!./node_modules/mongo-express/config.js

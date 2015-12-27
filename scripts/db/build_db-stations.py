@@ -4,10 +4,10 @@ import json
 import itertools
 import requests
 
-# Google API Key
-# TODO: Ensure this doesn't get commited to public repository
-google_api_key =  'AIzaSyArbx_H602BDP3Fq8QWSsml4YypRMe_ctg'
-
+google_api_key =  ''
+with open('/home/vagrant/app/keys.json') as key_file:
+  key_data = json.load(key_file)
+  google_api_key = key_data['googleapi']
 
 # Check for required datasets
 dataset_base_path = '/home/vagrant/app/data/sources/ncdc/'
