@@ -1,2 +1,5 @@
 node_modules/
 data/
+
+!.gitignore
+!node_modules/mongo-express/config.js
