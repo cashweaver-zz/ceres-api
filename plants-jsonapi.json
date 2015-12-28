@@ -1,0 +1,4 @@
+{ "name": "Lettuce", "minTemp": 10.0, "maxTemp": 80.0 }
+{ "name": "Tomato", "minTemp": 20.0, "maxTemp": 80.0 }
+{ "name": "Sweet Corn", "minTemp": 30.0, "maxTemp": 80.0 }
+{ "name": "Celery", "minTemp": 40.0, "maxTemp": 80.0 }
